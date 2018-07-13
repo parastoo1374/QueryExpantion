@@ -58,7 +58,7 @@ public class indexRunner {
                         if(values.contains(doc.get("DocId")))
                         {
                             used.add(doc.get("DocId"));
-                            temp = i + "\t" + "Q0" + "\t" + doc.get("DocId") + "\t" + rank + "\t" + scoreDoc.score + "\t" + "parastoo" + "\n";
+                            temp = i + " " + "Q0" + " " + doc.get("DocId") + " " + rank + " " + scoreDoc.score + " " + "parastoo" + "\n";
                             writer.write(temp);
                             System.out.print(temp);
                             rank++;
@@ -72,7 +72,7 @@ public class indexRunner {
                             if(!used.contains(value)){
                                 used.add(value);
                                 temp = "";
-                                temp = i + "\t" + "Q0" + "\t" + value + "\t" + rank + "\t" + "0.00" + "\t" + "parastoo" + "\n";
+                                temp = i + " " + "Q0" + " " + value + " " + rank + " " + "0.00" + " " + "parastoo" + "\n";
                                 writer.write(temp);
                                 System.out.print(temp);
                                 rank++;
@@ -81,11 +81,13 @@ public class indexRunner {
                                 break;
                         }
                     }
+                    
                 }
                 catch(Exception ex){
 //                    System.err.println(ex.getMessage());
                 }
             }
+            writer.close();
         }
         catch(Exception ex){
             System.err.println(ex.getMessage());
@@ -106,5 +108,8 @@ public class indexRunner {
         }
         return output;
     }
+    
+    
+    
 
 }
