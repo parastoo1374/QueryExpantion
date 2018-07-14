@@ -7,7 +7,7 @@ package queryexpantion;
 
 import entityStem.stemmer;
 import index.indexRunner;
-import index.scoreCombination;
+import score.scoreCombination;
 
 /**
  *
