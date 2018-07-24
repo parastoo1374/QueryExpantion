@@ -14,6 +14,7 @@ public class stemmer {
     public  HashMap<String,ArrayList<String>> query_entities;
     public  HashMap<String,ArrayList<String>> document_entities;
     public  HashMap<String,ArrayList<String>> query_related_document;
+    public  HashMap<String,ArrayList<String>> query_related_document_withScores;
     public  String query_entities_directory;
     public  String document_entities_directory;
     public  String qrell_directory;
@@ -22,6 +23,7 @@ public class stemmer {
         query_entities = new HashMap<>();
         document_entities = new HashMap<>();
         query_related_document = new HashMap<>();
+        query_related_document_withScores = new HashMap<>();
         query_entities_directory = qed;
         document_entities_directory = ded;
         qrell_directory = qrelld;
@@ -66,6 +68,7 @@ public class stemmer {
             document_entities.put(docId, entList);
         }
 
+        System.out.println("number of doc:"+document_entities.keySet().size());
         br.close();
     }
     
@@ -104,20 +107,20 @@ public class stemmer {
             String value  = splits[2] +" "+splits[4];
             
             ArrayList<String> entList;
-            if (query_related_document.containsKey(key)) {
-                entList = query_related_document.get(key);
+            if (query_related_document_withScores.containsKey(key)) {
+                entList = query_related_document_withScores.get(key);
             } else {
                 entList = new ArrayList<>();
             }
             
             entList.add(value);
             
-            query_related_document.put(key, entList);
+            query_related_document_withScores.put(key, entList);
 //            System.out.println(docId);
         }
 
         br.close();
-        return query_related_document;
+        return query_related_document_withScores;
     }
     
     public double[] computeMaxAndMin (String fileDir) throws FileNotFoundException, IOException{

@@ -32,11 +32,14 @@ public class scoreCombination {
     public String otherFile_dir;
     public String result_dir;
     public stemmer stem;
+    public int base;
+    public int length;
     
     public HashMap<String, ArrayList<String>> query_related_doc;
     public HashMap<String, ArrayList<String>> results = new HashMap<>();
     
-    public scoreCombination(stemmer stem,String fileDir, String otherFileDir , double alpha, String resultDir) throws IOException{
+    public scoreCombination(stemmer stem,int base, int length, String fileDir, String otherFileDir , 
+            double alpha, String resultDir) throws IOException{
         this.stem = stem;
         this.file_dir = fileDir;
         this.otherFile_dir = otherFileDir;
@@ -51,13 +54,18 @@ public class scoreCombination {
         this.maxValue_result = fileMaxMin[1];
         this.minValue_otherResult = otherFileMaxMin[0];
         this.maxValue_otherResult = otherFileMaxMin[1];
+        
+        this.length= length;
+        this.base = base;
     }
     
     
     public void combineScores( ) throws IOException{
         try {
-            
-            Writer writer = new BufferedWriter(new FileWriter((result_dir + "/resultSdmAndBM25.txt"),true), 26384);
+            File f =new File(result_dir);
+            if(f.exists())
+                f.delete();
+            Writer writer = new BufferedWriter(new FileWriter((result_dir ),true), 26384);
             BufferedReader br = new BufferedReader(new FileReader(new File(file_dir)));
             String line = null;
             String temp ;
@@ -87,7 +95,7 @@ public class scoreCombination {
                 
             sortHashMap();
             
-            for (int i = 201; i <= 250; i++) {
+            for (int i = base+1; i <= 250; i++) {
                 try{
                     rank = 1;
                     for (String value :results.get(Integer.toString(i))) {
@@ -97,6 +105,7 @@ public class scoreCombination {
                         writer.write(temp);
                         System.out.print(temp);
                         rank++;
+                        
                     }
                 }
                 catch(Exception ex){
@@ -129,7 +138,7 @@ public class scoreCombination {
     }
 
     private void sortHashMap() {
-        for (int k = 201; k <= 250; k++) {
+        for (int k = base+1; k <= base+length; k++) {
             try{
                 ArrayList<String> values =(ArrayList<String>) results.get(Integer.toString(k));
                 

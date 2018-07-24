@@ -75,4 +75,40 @@ public class indexer {
     public void close() throws IOException {
         writer.close();
     }
+
+    void indexFile(String documentDirectory) throws Exception {
+        BufferedReader br = new BufferedReader(new FileReader(new File(documentDirectory)));
+        String line = null;
+        String lastDocId="";
+        int docCount = 0;
+        line = br.readLine();
+        lastDocId = line.substring(0, line.indexOf("\t"));
+        ArrayList<String>entList = new ArrayList<>();
+        do{
+            String docId = line.substring(0, line.indexOf("\t"));
+            if(lastDocId.equals(docId)) {
+                String entitiesWithConf = line.substring(line.indexOf("\t", line.indexOf("\t") + 1) + 1);
+                String[] ent_conf = entitiesWithConf.split(" ");
+                
+
+                for (String temp : ent_conf) {
+                    entList.add(temp.split("\\|")[0]);
+                }
+                
+                line = br.readLine();
+            }
+            else{
+                indexFileArrayList(docId,entList);
+                docCount++;
+                System.out.println(docId+" is indexed!");
+                lastDocId = docId;
+                entList = new ArrayList<>();
+            }
+
+        }while (line != null);
+
+        System.out.println("number of docs: "+docCount);
+        br.close();
+    
+    }
 }
