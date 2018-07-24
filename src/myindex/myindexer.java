@@ -40,6 +40,7 @@ public class myindexer {
             }
             termFrequencies.put(key, termFrequency);
         }
+        System.out.println("here");
         
     }
     
@@ -67,6 +68,8 @@ public class myindexer {
     }
     
     public  int search( String queryToken, String docEntity ){
+        Map<String, Integer> queryTermFrequency = new HashMap<>();
+        
         if(termFrequencies.containsKey(docEntity)){
             if(termFrequencies.get(docEntity).containsKey(queryToken))
                  return termFrequencies.get(docEntity).get(queryToken);

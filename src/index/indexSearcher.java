@@ -29,7 +29,7 @@ public class indexSearcher {
 
         QueryParser parser = new QueryParser("contents" ,new StandardAnalyzer());
         Query query = parser.parse(q);
-        TopDocs hits = IndexSearcher.search(query, 58185);
+        TopDocs hits = IndexSearcher.search(query, 244886);
 
         return hits;
 
